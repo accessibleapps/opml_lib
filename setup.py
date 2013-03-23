@@ -5,6 +5,9 @@ setup(
  version = "0.1",
  description = "OPF reading/writing library",
  packages = find_packages(),
+ install_requires = [
+  'hg+http://hg.q-continuum.net/html_stripper#egg=html_stripper',
+ ],
  classifiers = [
   'Development Status :: 5 - Stable',
   'Intended Audience :: Developers',
