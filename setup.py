@@ -5,7 +5,8 @@ setup(
  version = "0.1",
  description = "OPF reading/writing library",
  packages = find_packages(),
- install_requires = [
+ install_requires = ['html_stripper'],
+ dependency_links = [
   'hg+http://hg.q-continuum.net/html_stripper#egg=html_stripper',
  ],
  classifiers = [
