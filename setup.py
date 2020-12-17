@@ -1,9 +1,9 @@
 from setuptools import setup, find_packages
 
 setup(
- name = 'opf_lib',
+ name = 'opml_lib',
  version = "0.1",
- description = "OPF reading/writing library",
+ description = "OPML reading/writing library",
  packages = find_packages(),
  install_requires = ['html_stripper', 'jinja2', ],
  dependency_links = [
