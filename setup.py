@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
  name = 'opml_lib',
- version = "0.1",
+ version = "0.1.1",
  description = "OPML reading/writing library",
  packages = find_packages(),
  install_requires = ['html_stripper', 'jinja2', ],

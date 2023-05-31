@@ -23,6 +23,6 @@ def write_opml(podcasts, filename, title="OPML output"):
  template = jinja2.Template(opml_template)
  opml_title = title
  contents = template.render(podcasts=podcasts, title=opml_title)
- with open(filename, 'w') as output_file:
-  output_file.write(contents.encode('UTF-8'))
+ with open(filename, mode='wt', encoding='utf8') as output_file:
+  output_file.write(contents)
 
