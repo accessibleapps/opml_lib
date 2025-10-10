@@ -1,12 +1,16 @@
-import jinja2
+from __future__ import annotations
 
-opml_template = u"""<?xml version="1.0" encoding="UTF-8"?>
+from typing import Any
+
+import jinja2  # type: ignore[import-untyped]
+
+opml_template = """<?xml version="1.0" encoding="UTF-8"?>
 <opml version="1.0">
   <head>
     <title>{{ title }}</title>
   </head>
   <body>
-    {% for podcast in podcasts %}    
+    {% for podcast in podcasts %}
     <outline
         text="{{ podcast.title|e }}"
         title="{{ podcast.title|e }}"
@@ -19,10 +23,10 @@ opml_template = u"""<?xml version="1.0" encoding="UTF-8"?>
 </opml>
 """
 
-def write_opml(podcasts, filename, title="OPML output"):
+def write_opml(podcasts: list[dict[str, Any]], filename: str, title: str = "OPML output") -> None:
  template = jinja2.Template(opml_template)
  opml_title = title
- contents = template.render(podcasts=podcasts, title=opml_title)
- with open(filename, mode='wt', encoding='utf8') as output_file:
+ contents: str = template.render(podcasts=podcasts, title=opml_title)
+ with open(filename, mode="w", encoding='utf8') as output_file:
   output_file.write(contents)
 
