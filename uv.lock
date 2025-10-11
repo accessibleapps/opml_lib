@@ -352,9 +352,8 @@ wheels = [
 
 [[package]]
 name = "html-stripper"
-version = "0.3"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/21/e0/c6b141679eed08bb139a7a82f36ed30336b15d69c9b2c4a735549a53efad/html_stripper-0.3.tar.gz", hash = "sha256:b9ea66bc75d00adc06447f3c3a278899c10cf12fad0c0faab39457057b4056b9", size = 15158, upload-time = "2020-07-30T16:16:48.075Z" }
+version = "0.1"
+source = { git = "https://github.com/accessibleapps/html_stripper.git#cc3842c092e5f539f1bebee0da2971718155ad0d" }
 
 [[package]]
 name = "hypothesis"
@@ -968,7 +967,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "html-stripper" },
+    { name = "html-stripper", git = "https://github.com/accessibleapps/html_stripper.git" },
     { name = "jinja2" },
     { name = "opml", specifier = ">=0.5" },
     { name = "pyright", marker = "extra == 'dev'", specifier = ">=1.1.0" },
