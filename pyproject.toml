@@ -76,3 +76,9 @@ select = [
     "SIM", # flake8-simplify
 ]
 ignore = []
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.406",
+    "ruff>=0.14.0",
+]

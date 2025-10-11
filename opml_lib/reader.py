@@ -15,9 +15,9 @@ class OPMLEntry(TypedDict):
 def read_opml(filename: str) -> list[OPMLEntry]:
  lst: list[OPMLEntry] = []
  parsed = [opml.OutlineElement(i) for i in opml.parse(filename)._tree.xpath('.//outline[@xmlUrl or @url]')]
- parsed = sorted(parsed, key=lambda item: getattr(item, 'title', getattr(item, 'text', '')))  # type: ignore[no-any-return]
+ parsed = sorted(parsed, key=lambda item: getattr(item, 'title', getattr(item, 'text', '')))  # pyright: ignore[reportUnknownLambdaType]
  for outline in parsed:
-  title: str = html_stripper.strip_html_entities(getattr(outline, 'title', getattr(outline, 'text', 'Untitled')))
+  title: str = html_stripper.strip_html_entities(getattr(outline, 'title', getattr(outline, 'text', 'Untitled')))  # pyright: ignore[reportAttributeAccessIssue]
   url: str | None = getattr(outline, 'xmlUrl', getattr(outline, 'url', None))
   if url is None:
    continue

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-import jinja2  # type: ignore[import-untyped]
+import jinja2
 
 opml_template = """<?xml version="1.0" encoding="UTF-8"?>
 <opml version="1.0">
