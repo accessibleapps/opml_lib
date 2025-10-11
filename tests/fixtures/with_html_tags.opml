@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+  <head>
+    <title>Feeds with HTML Tags</title>
+  </head>
+  <body>
+    <outline
+        text="&lt;b&gt;Bold Feed&lt;/b&gt;"
+        title="&lt;b&gt;Bold Feed&lt;/b&gt;"
+        type="rss"
+        xmlUrl="https://example.com/feed.xml"
+        htmlUrl="https://example.com"
+      />
+    <outline
+        text="&lt;em&gt;Italic&lt;/em&gt; Feed"
+        title="&lt;em&gt;Italic&lt;/em&gt; Feed"
+        type="rss"
+        xmlUrl="https://example2.com/feed.xml"
+        htmlUrl="https://example2.com"
+      />
+  </body>
+</opml>

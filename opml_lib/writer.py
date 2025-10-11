@@ -23,10 +23,10 @@ opml_template = """<?xml version="1.0" encoding="UTF-8"?>
 </opml>
 """
 
-def write_opml(podcasts: list[dict[str, Any]], filename: str, title: str = "OPML output") -> None:
- template = jinja2.Template(opml_template)
- opml_title = title
- contents: str = template.render(podcasts=podcasts, title=opml_title)
- with open(filename, mode="w", encoding='utf8') as output_file:
-  output_file.write(contents)
 
+def write_opml(podcasts: list[dict[str, Any]], filename: str, title: str = "OPML output") -> None:
+    template = jinja2.Template(opml_template)
+    opml_title = title
+    contents: str = template.render(podcasts=podcasts, title=opml_title)
+    with open(filename, mode="w", encoding="utf8") as output_file:
+        output_file.write(contents)

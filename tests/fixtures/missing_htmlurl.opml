@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+  <head>
+    <title>Feed without htmlUrl</title>
+  </head>
+  <body>
+    <outline
+        text="No HTML URL"
+        title="No HTML URL"
+        type="rss"
+        xmlUrl="https://example.com/feed.xml"
+      />
+  </body>
+</opml>

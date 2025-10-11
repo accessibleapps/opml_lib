@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+  <head>
+    <title>Feeds with HTML Entities</title>
+  </head>
+  <body>
+    <outline
+        text="Test &amp; Demo"
+        title="Test &amp; Demo"
+        type="rss"
+        xmlUrl="https://example.com/feed.xml"
+        htmlUrl="https://example.com"
+      />
+    <outline
+        text="Quotes &quot;Test&quot;"
+        title="Quotes &quot;Test&quot;"
+        type="rss"
+        xmlUrl="https://quotes.example.com/feed.xml"
+        htmlUrl="https://quotes.example.com"
+      />
+  </body>
+</opml>

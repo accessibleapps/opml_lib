@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+  <head>
+    <title>Sample Feeds</title>
+  </head>
+  <body>
+    <outline
+        text="Python Podcast"
+        title="Python Podcast"
+        type="rss"
+        xmlUrl="https://pythonpodcast.com/rss.xml"
+        htmlUrl="https://pythonpodcast.com"
+      />
+    <outline
+        text="Tech News"
+        title="Tech News"
+        type="rss"
+        xmlUrl="https://technews.example.com/feed.xml"
+        htmlUrl="https://technews.example.com"
+      />
+    <outline
+        text="Coding Blog"
+        title="Coding Blog"
+        type="rss"
+        xmlUrl="https://codingblog.example.com/rss"
+        htmlUrl="https://codingblog.example.com"
+      />
+  </body>
+</opml>

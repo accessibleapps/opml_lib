@@ -28,6 +28,7 @@ classifiers = [
 dependencies = [
     "html_stripper",
     "jinja2",
+    "opml>=0.5",
 ]
 
 [project.optional-dependencies]
@@ -79,6 +80,9 @@ ignore = []
 
 [dependency-groups]
 dev = [
+    "hypothesis>=6.79.4",
     "pyright>=1.1.406",
+    "pytest>=7.4.4",
+    "pytest-cov>=4.1.0",
     "ruff>=0.14.0",
 ]
