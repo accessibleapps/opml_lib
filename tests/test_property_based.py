@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import tempfile
+from collections import Counter
 from pathlib import Path
+from xml.etree import ElementTree
 
 from hypothesis import given
 from hypothesis import strategies as st
@@ -26,16 +28,18 @@ def is_valid_xml_text(s: str) -> bool:
             return False
     return True
 
-feed_entry = st.fixed_dictionaries({
-    "title": st.text(alphabet=st.characters(min_codepoint=0x20, max_codepoint=0xD7FF,
-                                            blacklist_categories=("Cs",)),
-                    min_size=1, max_size=100).filter(is_valid_xml_text),
-    "url": st.from_regex(r"https?://[a-z0-9.-]+\.[a-z]{2,}/[a-z0-9/._-]*", fullmatch=True),
-    "link": st.one_of(
-        st.none(),
-        st.from_regex(r"https?://[a-z0-9.-]+\.[a-z]{2,}", fullmatch=True)
-    ),
-})
+
+feed_entry = st.fixed_dictionaries(
+    {
+        "title": st.text(
+            alphabet=st.characters(min_codepoint=0x20, max_codepoint=0xD7FF, blacklist_categories=("Cs",)),
+            min_size=1,
+            max_size=100,
+        ).filter(is_valid_xml_text),
+        "url": st.from_regex(r"https?://[a-z0-9.-]+\.[a-z]{2,}/[a-z0-9/._-]*", fullmatch=True),
+        "link": st.one_of(st.none(), st.from_regex(r"https?://[a-z0-9.-]+\.[a-z]{2,}", fullmatch=True)),
+    }
+)
 
 
 @given(st.lists(feed_entry, min_size=0, max_size=50))
@@ -87,6 +91,24 @@ def test_roundtrip_preserves_urls(feed_list: list) -> None:  # type: ignore[misc
         Path(output_file).unlink(missing_ok=True)
 
 
+@given(st.lists(feed_entry, min_size=1, max_size=20))
+def test_roundtrip_preserves_urls_and_links(feed_list: list) -> None:  # type: ignore[misc]
+    """Test that feed URLs and nullable HTML links survive a read/write roundtrip."""
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".opml") as f:
+        output_file = f.name
+
+    try:
+        write_opml(feed_list, output_file, "Roundtrip Test")
+        result = read_opml(output_file)
+
+        original_pairs = Counter((entry["url"], entry["link"]) for entry in feed_list)
+        result_pairs = Counter((entry["url"], entry["link"]) for entry in result)
+        assert original_pairs == result_pairs
+
+    finally:
+        Path(output_file).unlink(missing_ok=True)
+
+
 @given(st.lists(feed_entry, min_size=0, max_size=20))
 def test_write_opml_returns_none(feed_list: list) -> None:  # type: ignore[misc]
     """Test that write_opml returns None (no exceptions)."""
@@ -100,10 +122,7 @@ def test_write_opml_returns_none(feed_list: list) -> None:  # type: ignore[misc]
         Path(output_file).unlink(missing_ok=True)
 
 
-@given(
-    st.text(min_size=1, max_size=200).filter(lambda x: x.strip()),
-    st.lists(feed_entry, min_size=0, max_size=10)
-)
+@given(st.text(min_size=1, max_size=200).filter(lambda x: x.strip()), st.lists(feed_entry, min_size=0, max_size=10))
 def test_custom_title_appears_in_output(title: str, feed_list: list) -> None:  # type: ignore[misc]
     """Test that custom titles are properly included in OPML."""
     with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".opml") as f:
@@ -119,6 +138,31 @@ def test_custom_title_appears_in_output(title: str, feed_list: list) -> None:  #
         # Jinja2 normalizes \r and \r\n to \n
         normalized_title = title.replace("\r\n", "\n").replace("\r", "\n")
         assert normalized_title in content or normalized_title.replace("&", "&amp;") in content
+
+    finally:
+        Path(output_file).unlink(missing_ok=True)
+
+
+@given(
+    st.text(
+        alphabet=st.characters(min_codepoint=0x20, max_codepoint=0xD7FF, blacklist_categories=("Cs",)),
+        min_size=1,
+        max_size=100,
+    ).filter(is_valid_xml_text),
+    st.lists(feed_entry, min_size=0, max_size=10),
+)
+def test_custom_title_keeps_output_parseable(title: str, feed_list: list) -> None:  # type: ignore[misc]
+    """Test that arbitrary valid OPML titles are escaped as parseable XML text."""
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".opml") as f:
+        output_file = f.name
+
+    try:
+        write_opml(feed_list, output_file, title)
+        content = Path(output_file).read_text(encoding="utf-8")
+
+        root = ElementTree.fromstring(content)
+        parsed_title = root.findtext("./head/title")
+        assert parsed_title == title
 
     finally:
         Path(output_file).unlink(missing_ok=True)
