@@ -122,7 +122,14 @@ def test_write_opml_returns_none(feed_list: list) -> None:  # type: ignore[misc]
         Path(output_file).unlink(missing_ok=True)
 
 
-@given(st.text(min_size=1, max_size=200).filter(lambda x: x.strip()), st.lists(feed_entry, min_size=0, max_size=10))
+@given(
+    st.text(
+        alphabet=st.characters(min_codepoint=0x20, max_codepoint=0xD7FF, blacklist_categories=("Cs",)),
+        min_size=1,
+        max_size=200,
+    ).filter(is_valid_xml_text),
+    st.lists(feed_entry, min_size=0, max_size=10),
+)
 def test_custom_title_appears_in_output(title: str, feed_list: list) -> None:  # type: ignore[misc]
     """Test that custom titles are properly included in OPML."""
     with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".opml") as f:
@@ -134,10 +141,8 @@ def test_custom_title_appears_in_output(title: str, feed_list: list) -> None:  #
 
         # Title should appear in the head section
         assert "<head>" in content
-        # The title text should be in the output (may be escaped or have normalized line endings)
-        # Jinja2 normalizes \r and \r\n to \n
-        normalized_title = title.replace("\r\n", "\n").replace("\r", "\n")
-        assert normalized_title in content or normalized_title.replace("&", "&amp;") in content
+        root = ElementTree.fromstring(content)
+        assert root.findtext("./head/title") == title
 
     finally:
         Path(output_file).unlink(missing_ok=True)
