@@ -7,7 +7,7 @@ import jinja2
 opml_template = """<?xml version="1.0" encoding="UTF-8"?>
 <opml version="1.0">
   <head>
-    <title>{{ title }}</title>
+    <title>{{ title|e }}</title>
   </head>
   <body>
     {% for podcast in podcasts %}
@@ -16,7 +16,9 @@ opml_template = """<?xml version="1.0" encoding="UTF-8"?>
         title="{{ podcast.title|e }}"
         type="rss"
         xmlUrl="{{ podcast.url|e }}"
+        {% if podcast.get("link") is not none %}
         htmlUrl="{{ podcast.link|e }}"
+        {% endif %}
       />
     {% endfor %}
   </body>
