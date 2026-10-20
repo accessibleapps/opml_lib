@@ -32,6 +32,7 @@ dependencies = [
     "html_stripper @ git+https://github.com/accessibleapps/html_stripper.git",
     "jinja2",
     "opml>=0.5",
+    "typing-extensions; python_version < '3.8'",
 ]
 
 [project.optional-dependencies]
@@ -59,11 +60,12 @@ exclude = [
     "**/__pycache__",
     "**/node_modules",
     ".git",
+    ".venv",
 ]
 
 [tool.ruff]
 line-length = 120
-target-version = "py38"
+target-version = "py37"
 
 [tool.ruff.lint]
 select = [

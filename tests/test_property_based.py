@@ -66,7 +66,7 @@ def test_write_opml_always_creates_valid_xml(feed_list: list) -> None:  # type: 
         assert "</opml>" in content
 
     finally:
-        Path(output_file).unlink(missing_ok=True)
+        Path(output_file).unlink()
 
 
 @given(st.lists(feed_entry, min_size=1, max_size=20))
@@ -88,7 +88,7 @@ def test_roundtrip_preserves_urls(feed_list: list) -> None:  # type: ignore[misc
         assert original_urls == result_urls
 
     finally:
-        Path(output_file).unlink(missing_ok=True)
+        Path(output_file).unlink()
 
 
 @given(st.lists(feed_entry, min_size=1, max_size=20))
@@ -106,7 +106,7 @@ def test_roundtrip_preserves_urls_and_links(feed_list: list) -> None:  # type: i
         assert original_pairs == result_pairs
 
     finally:
-        Path(output_file).unlink(missing_ok=True)
+        Path(output_file).unlink()
 
 
 @given(st.lists(feed_entry, min_size=0, max_size=20))
@@ -119,7 +119,7 @@ def test_write_opml_returns_none(feed_list: list) -> None:  # type: ignore[misc]
         result = write_opml(feed_list, output_file)
         assert result is None
     finally:
-        Path(output_file).unlink(missing_ok=True)
+        Path(output_file).unlink()
 
 
 @given(
@@ -145,7 +145,7 @@ def test_custom_title_appears_in_output(title: str, feed_list: list) -> None:  #
         assert root.findtext("./head/title") == title
 
     finally:
-        Path(output_file).unlink(missing_ok=True)
+        Path(output_file).unlink()
 
 
 @given(
@@ -170,7 +170,7 @@ def test_custom_title_keeps_output_parseable(title: str, feed_list: list) -> Non
         assert parsed_title == title
 
     finally:
-        Path(output_file).unlink(missing_ok=True)
+        Path(output_file).unlink()
 
 
 @given(st.lists(feed_entry, min_size=1, max_size=50))
@@ -187,7 +187,7 @@ def test_read_preserves_entry_count(feed_list: list) -> None:  # type: ignore[mi
         assert len(result) == len(feed_list)
 
     finally:
-        Path(output_file).unlink(missing_ok=True)
+        Path(output_file).unlink()
 
 
 @given(st.lists(feed_entry, min_size=2, max_size=20))
@@ -205,4 +205,4 @@ def test_read_returns_sorted_list(feed_list: list) -> None:  # type: ignore[misc
         assert titles == sorted(titles)
 
     finally:
-        Path(output_file).unlink(missing_ok=True)
+        Path(output_file).unlink()

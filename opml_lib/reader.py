@@ -1,9 +1,14 @@
 from __future__ import annotations
 
-from typing import TypedDict
+import sys
 
 import html_stripper  # type: ignore[import-untyped]
 import opml  # type: ignore[import-untyped]
+
+if sys.version_info < (3, 8):
+    from typing_extensions import TypedDict
+else:
+    from typing import TypedDict
 
 
 class OPMLEntry(TypedDict):
