@@ -942,6 +942,7 @@ dependencies = [
     { name = "html-stripper" },
     { name = "jinja2" },
     { name = "opml" },
+    { name = "typing-extensions", version = "4.7.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.8'" },
 ]
 
 [package.optional-dependencies]
@@ -972,6 +973,7 @@ requires-dist = [
     { name = "opml", specifier = ">=0.5" },
     { name = "pyright", marker = "extra == 'dev'", specifier = ">=1.1.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.1.0" },
+    { name = "typing-extensions", marker = "python_full_version < '3.8'" },
 ]
 provides-extras = ["dev"]
 
